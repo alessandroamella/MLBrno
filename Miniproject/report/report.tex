@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[a4paper, total={6.5in, 8.5in}]{geometry}
+\setcounter{secnumdepth}{4}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage{ccicons}
+\usepackage{fancyhdr}
+\usepackage{pgfplots}
+\usepackage[
+type={CC},
+modifier={by-nc-sa},
+version={4.0},
+]{doclicense}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{arrows.meta, positioning}
+
+\definecolor{highlight}{rgb}{0.22,0.45,0.70}
+
+\title{Classification of wireless transmitters}
+\author{Alessandro Amella, Marian Abuziloaie}
+\date{\today}
+
+\makeindex
+
+\pagestyle{fancy}
+\fancyhf{} % Clear header and footer
+% \fancyhead[C]{\nouppercase{\leftmark}} % Current section at the top
+\fancyfoot[C]{\thepage} % Page numbers at the bottom
+\renewcommand{\headrulewidth}{0.4pt} % Header rule
+\renewcommand{\footrulewidth}{0pt} % Footer rule
+
+\begin{document}
+
+\maketitle
+
+% \doclicenseThis%
+
+% \tableofcontents
+
+% \clearpage
+
+\section{Introduction}
+The aim of this project is to classify wireless transmitters based on observed hardware imperfections. This involves analyzing a dataset of 19,200 samples, each described by nine features that represent various radio frequency impairments. This report outlines our approach to preprocessing the data, selecting and training a model, and discussing the results obtained.
+
+\section{Problem Description}
+Wireless transmitters often exhibit hardware imperfections that can impact their performance. The dataset provided includes measurements of nine such imperfections, including Carrier Frequency Offset (CFO), gain imbalance, and Error Vector Magnitude (EVM). Our task is to use this data to classify the transmitters, giving insight into the extent of their impairments.
+
+\section{Methodology}
+
+\subsection{Data Examination and Preprocessing}
+Upon loading the dataset, preliminary examination revealed that it consists of floating-point and integer values, with a few columns not directly related to the classification task, such as the first (in Google Colab: \texttt{Unnamed: 0}) and \texttt{time [s]}. These were removed to focus on the nine features of interest. The data was then standardized using Scikit-learn's StandardScaler to ensure all features contribute equally to the analysis.
+
+\subsection{Model Selection}
+Given the nature of the task — classifying transmitters based on their hardware imperfections — we opted for a KMeans clustering approach. This decision was supported by inspection of the silhouette scores for varying numbers of clusters, suggesting that six clusters provide a good balance between within-cluster similarity and between-cluster difference.
+
+\subsection{Model Training}
+With the number of clusters determined, we trained a KMeans model on the standardized data. The process involved initializing the model with six clusters and a random state for reproducibility, then fitting it to the data to perform the classification.
+
+\section{Results}
+Upon training the model, we classified the transmitters into six distinct groups based on their impairment characteristics. The mean values of the features for each cluster, as presented in the following table, reveal notable differences in hardware imperfections across clusters.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrrrrrr}
+\hline
+Cl. & cfo\_m. & cfo\_d. & gain\_i. & iq\_imb & or\_off & qua.\_err & ph\_err & mag\_err & evm \\
+\hline
+1 & -309.24 & -309.57 & 0.08 & -34.83 & -29.50 & 2.13 & 1.22 & 1.64 & 2.68 \\
+2 & -373.45 & -373.19 & -0.03 & -29.82 & -36.92 & -3.69 & 1.41 & 3.10 & 3.86 \\
+3 & -398.17 & -397.41 & 0.07 & -45.94 & -27.44 & 0.35 & 1.07 & 0.52 & 1.91 \\
+4 & 459.20 & 459.02 & 0.07 & -34.70 & -28.55 & 2.06 & 1.09 & 1.56 & 2.44 \\
+5 & -943.04 & -943.62 & 0.08 & -38.89 & -28.01 & 1.18 & 1.12 & 0.98 & 2.17 \\
+6 & -703.24 & -703.28 & 0.04 & -31.66 & -32.31 & 2.98 & 1.36 & 2.21 & 3.24 \\
+\hline
+\end{tabular}
+\caption{Mean values of features by cluster.}
+\label{table:mean}
+\end{table}
+
+Figure 1 shows the silhouette score analysis used to determine the optimal number of clusters.
+
+% Placeholder for figure; replace with your code's plot if applicable.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{silhouette.png}
+\caption{Silhouette score analysis for determining the number of clusters.}
+\label{fig:silhouette}
+\end{figure}
+
+\section{Conclusions}
+This project demonstrates the utility of machine learning techniques in classifying wireless transmitters based on data-driven insights into their hardware imperfections. The KMeans clustering model, chosen for its simplicity and effectiveness, successfully grouped transmitters into clusters based on the magnitude of their impairments.
+
+
+\appendix
+
+\vspace*{\fill}
+
+% \vspace{2em}
+\hrulefill
+\vspace{1em}
+
+\textbf{Alessandro Amella, Marian Abuziloaie \textcopyright{} 2024}
+
+\end{document}

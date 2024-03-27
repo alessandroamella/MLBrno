@@ -1,7 +1,7 @@
 *.csv
 specs.pdf
 report/*.aux
-report/*.idk
+report/*.idx
 report/*.out
 report/*.gz
 report/*.toc

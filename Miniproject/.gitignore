@@ -1,6 +1,2 @@
 specs.pdf
-report/*.aux
-report/*.idx
-report/*.out
-report/*.gz
-report/*.toc
+report

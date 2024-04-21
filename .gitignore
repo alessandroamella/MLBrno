@@ -1,3 +1,15 @@
+# Ignore LaTeX auxiliary files
+*.aux
+*.idx
+*.out
+*.synctex.gz
+
+# Ignore other temporary files
+*.gz
+*.toc
+*.lof
+*.lot
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
